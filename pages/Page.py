@@ -8,7 +8,6 @@ from Constants import Constants
 
 class Page:
     def __init__(self):
-        # self.page_url = url
         self.page_url = ""
         self.image_url = ""
         self.image_name = ""
