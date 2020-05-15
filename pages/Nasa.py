@@ -13,9 +13,10 @@ class Nasa(Page):
 
         try:
             parsed_html = BeautifulSoup(page_content, "html.parser")
-            html = list(parsed_html.children)[3]
-            body = list(html.children)[3]
-            for tag in body.find_all('img'):
+            # html = list(parsed_html.children)[2]
+            # body = list(html.children)[3]
+
+            for tag in parsed_html.find_all('img'):
                 url = tag.get('src')
                 if url is not None:
                     self.image_url = self.page_url.split("astropix")[0] + url
