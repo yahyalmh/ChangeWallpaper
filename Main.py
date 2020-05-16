@@ -7,6 +7,7 @@ from os.path import expanduser
 
 from Constants import Constants
 from Utils import Utils
+from pages import *
 from Utils.SpaceManager import SpaceManager
 from db.Database import Database
 from pages.Page import Page
@@ -45,7 +46,7 @@ class Main:
 
     def run_change_wallpaper_script(self, image_address):
         try:
-            bash_abs_path = str(Utils.get_project_root()) + os.sep + "changeWall.sh"
+            bash_abs_path = str(Utils.get_project_root()) + os.sep + "bash" + os.sep + "changeWall.sh"
             subprocess.check_call([str(bash_abs_path), str(image_address)])
         except Exception as e:
             pass

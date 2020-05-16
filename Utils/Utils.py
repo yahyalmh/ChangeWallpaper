@@ -18,7 +18,7 @@ def request_url(url, address):
 
 def get_project_root() -> Path:
     """Returns project root folder."""
-    return Path(__file__).parent
+    return Path(__file__).parent.parent
 
 
 def choose_rand_image():
