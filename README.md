@@ -36,6 +36,7 @@ project is created with:
 * Test on linux ubuntu 18.4 with Gnome 3.28
 * download wallpaper once a day
 * Change wallpaper periodically with crontab setup
+* If the total downloaded images size is more than 2G(you can change this limit in`Utils/SpaceManager.py` file), remove the oldest image files from the application directory daily
 * If there is not image in project's download directory use system default wallpaper in `/usr/share/backgrounds` directory 
 also if there is not any wallpaper in this path use a default image there is in project `./image/def_wall.png` path
 

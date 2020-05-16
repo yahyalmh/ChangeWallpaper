@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 imageAddress="$1"
 user=$(whoami)

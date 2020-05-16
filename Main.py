@@ -1,15 +1,15 @@
+import imghdr
 import os
 import random
 import subprocess
 from datetime import datetime
 from os.path import expanduser
 
-import Utils
 from Constants import Constants
+from Utils import Utils
+from Utils.SpaceManager import SpaceManager
 from db.Database import Database
-from pages import *
 from pages.Page import Page
-import imghdr
 
 
 class Main:
@@ -30,11 +30,12 @@ class Main:
                 page.fetch_image_address(self.tmp_page_address)
             self.db.inset_today_date()
 
-            rand_page = all_pages.__getitem__(random.randint(0, len(all_pages)-1))
+            rand_page = all_pages.__getitem__(random.randint(0, len(all_pages) - 1))
             if rand_page.image_name != "" and os.path.exists(rand_page.image_local_address):
                 image_address = rand_page.image_local_address
             else:
                 image_address = self.get_random_image()
+            SpaceManager().manage()  # reduce space tacked by app limit is 2G if necessary
         else:
             image_address = self.get_random_image()
 
@@ -56,8 +57,6 @@ class Main:
                 image_address = rand_image
                 break
         return image_address
-
-
 
     def setup_files(self):
         home = expanduser("~")

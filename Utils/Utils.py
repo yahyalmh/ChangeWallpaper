@@ -22,11 +22,11 @@ def get_project_root() -> Path:
 
 
 def choose_rand_image():
-    if os.path.exists(Constants.project_dir) and len(os.listdir(Constants.project_dir)) > 1:
+    if os.path.exists(Constants.project_dir) and len(os.listdir(Constants.project_dir)) > 2:
         listdir = os.listdir(Constants.project_dir)
         random_image = listdir.__getitem__(random.randint(0, len(listdir) - 1))
         image_address = Constants.project_dir + os.sep + random_image
-    elif os.path.exists(Constants.default_picture_path) and len(os.listdir(Constants.default_picture_path)) > 20:
+    elif os.path.exists(Constants.default_picture_path) and len(os.listdir(Constants.default_picture_path)) > 2:
         os_listdir = os.listdir(Constants.default_picture_path)
         random_image = os_listdir.__getitem__(random.randint(0, len(os_listdir) - 1))
         image_address = Constants.default_picture_path + os.sep + random_image

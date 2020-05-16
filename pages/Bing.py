@@ -42,6 +42,6 @@ class Bing(Page):
             else:
                 self.image_name = self.extract_image_name
 
-            self.image_name += ".jpeg"
+            self.image_name += ".jpg"
         else:
             super(Bing, self).crete_image_name()
