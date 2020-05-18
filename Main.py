@@ -16,6 +16,7 @@ from pages.Page import Page
 class Main:
     tmp_page_address = ""
     project_dir = ""
+    all_pages = []
 
     def __init__(self):
         self.setup_files()
@@ -26,19 +27,18 @@ class Main:
         today_date = datetime.date(datetime.now())
 
         if old_date != str(today_date):
-            all_pages = [cls() for cls in Page.__subclasses__()]
-            for page in all_pages:
+            self.all_pages = [cls() for cls in Page.__subclasses__()]
+            for page in self.all_pages:
                 page.fetch_image_address(self.tmp_page_address)
             self.db.inset_today_date()
 
-            rand_page = all_pages.__getitem__(random.randint(0, len(all_pages) - 1))
-            if rand_page.image_name != "" and os.path.exists(rand_page.image_local_address):
-                image_address = rand_page.image_local_address
-            else:
-                image_address = self.get_random_image()
-            SpaceManager().manage()  # reduce space tacked by app limit is 2G if necessary
+            image_address = self.get_today_rand_image()
+            if image_address is None or not os.path.exists(image_address):
+                image_address = self.get_default_random_image()
+
+            SpaceManager().check_space()  # reduce space tacked by app limit is 2G if necessary
         else:
-            image_address = self.get_random_image()
+            image_address = self.get_default_random_image()
 
         self.run_change_wallpaper_script(image_address)
         if os.path.exists(self.tmp_page_address):
@@ -51,12 +51,28 @@ class Main:
         except Exception as e:
             pass
 
-    def get_random_image(self):
+    def get_default_random_image(self):
         while True:
             rand_image = Utils.choose_rand_image()
             if imghdr.what(rand_image) is not None:
                 image_address = rand_image
                 break
+        return image_address
+
+    def get_today_rand_image(self):
+        image_address = None
+
+        if not self.all_pages:
+            return image_address
+
+        while True:
+            randint = random.randint(0, len(self.all_pages) - 1)
+            rand_page = self.all_pages.__getitem__(randint)
+
+            if rand_page and rand_page.image_name != "" and os.path.exists(rand_page.image_local_address):
+                image_address = rand_page.image_local_address
+                break
+
         return image_address
 
     def setup_files(self):

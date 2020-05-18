@@ -10,7 +10,7 @@ class SpaceManager:
     """
     space_limit = 2  # 2 gigabyte, change it to mange space limit
 
-    def manage(self):
+    def check_space(self):
         overall_size = self.get_wall_dir_size()
         if overall_size > self.space_limit:
             self.remove_oldest_files(overall_size - self.space_limit)
