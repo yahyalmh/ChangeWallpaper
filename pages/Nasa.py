@@ -25,7 +25,7 @@ class Nasa(Page):
             # print(e)
             pass
 
-    def crete_image_name(self):
+    def create_image_name(self):
         temp = self.image_url.split("/")
         image_name = temp[len(temp) - 1]
         self.image_name = image_name

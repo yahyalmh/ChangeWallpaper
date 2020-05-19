@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-from Constants import Constants
+from Utils import Util
 
 
 class SpaceManager:
@@ -17,7 +17,7 @@ class SpaceManager:
 
     def remove_oldest_files(self, overflow_size):
         """delete oldest file base on modified time"""
-        paths = sorted(Path(Constants.project_dir).iterdir(), key=os.path.getmtime)
+        paths = sorted(Path(Util.get_instance().project_dir).iterdir(), key=os.path.getmtime)
         tmp_size = 0
         index = 0
         for file in paths:
@@ -41,8 +41,8 @@ class SpaceManager:
         :return: Int as size
         """
         size = 0
-        for file in os.listdir(Constants.project_dir):
-            file = Constants.project_dir + os.sep + file
+        for file in os.listdir(Util.get_instance().get_project_dir()):
+            file = Util.get_instance().get_project_dir() + os.sep + file
             if os.path.exists(file) and os.path.isfile(file):
                 size += os.path.getsize(file)
 

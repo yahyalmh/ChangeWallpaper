@@ -32,7 +32,7 @@ class Bing(Page):
         except Exception as e:
             pass
 
-    def crete_image_name(self):
+    def create_image_name(self):
         if self.extract_image_name != "":
             self.extract_image_name = re.sub('[^\w\-_\. ]', '', self.extract_image_name)
             # self.extract_image_name = re.sub(r"\s+", '_', self.extract_image_name)
@@ -44,4 +44,4 @@ class Bing(Page):
 
             self.image_name += ".jpg"
         else:
-            super(Bing, self).crete_image_name()
+            super(Bing, self).create_image_name()

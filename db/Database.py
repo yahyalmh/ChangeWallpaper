@@ -2,14 +2,14 @@ import os
 import sqlite3
 from datetime import datetime
 
-from Constants import Constants
+from Utils import Util
 
 
 class Database:
     db_name = "wallpaperDB.db"
 
     def __init__(self):
-        self.DB_address = Constants.project_dir + os.sep + self.db_name
+        self.DB_address = Util.get_instance().get_project_dir() + os.sep + self.db_name
         self.date = ""
 
     def create_database(self):
