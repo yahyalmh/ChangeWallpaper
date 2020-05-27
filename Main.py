@@ -1,8 +1,10 @@
 import os
 import subprocess
+import sys
 from datetime import datetime
 from os.path import expanduser
 
+from Crontab import Crontab
 from Utils import Util
 from Utils.PictureManager import PictureManager
 from pages import *
@@ -17,6 +19,7 @@ class Main:
         self.bash_proj_dir = "bash"
         self.default_dir_name = "wallpaper"
         self.bash_file_name = "changeWall.sh"
+        self.bat_file_name = "changeWall.bat"
 
         self.setup_files()
         self.all_pages = []
@@ -48,14 +51,16 @@ class Main:
 
     def set_wallpaper_with_bash(self, image_address):
         try:
-
-            bash_abs_path = str(Util.get_instance().get_project_root()) \
+            os_platform = sys.platform
+            script_path = Util.get_instance().get_project_root() \
                             + os.sep \
-                            + self.bash_proj_dir \
-                            + os.sep \
-                            + self.bash_file_name
+                            + self.bash_proj_dir
+            if os_platform.__contains__("linux"):
+                script_path += os.sep + self.bash_file_name
+            elif os_platform.__contains__("win32"):
+                script_path += os.sep + self.bat_file_name
 
-            subprocess.check_call([str(bash_abs_path), str(image_address)])
+            subprocess.check_call([str(script_path), str(image_address)])
 
         except Exception as e:
             pass
@@ -71,3 +76,5 @@ class Main:
 
 if __name__ == '__main__':
     Main().main()
+    c = Crontab()
+    # c.run()

@@ -22,9 +22,9 @@ class Util:
         except Exception as e:
             pass
 
-    def get_project_root(self) -> Path:
+    def get_project_root(self):
         """Returns project root folder."""
-        return Path(__file__).parent.parent
+        return str(Path(__file__).parent.parent)
 
 
 def get_instance():

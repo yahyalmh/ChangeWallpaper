@@ -43,7 +43,7 @@ class PictureManager:
     def choose_rand_image(self):
         def_project_dir = Util.get_instance().get_project_dir()
 
-        if os.path.exists(def_project_dir) and len(os.listdir(def_project_dir)) > 2:
+        if os.path.exists(def_project_dir) and len(os.listdir(def_project_dir)) > 3:
             listdir = os.listdir(def_project_dir)
             random_image = listdir.__getitem__(random.randint(0, len(listdir) - 1))
             image_address = def_project_dir + os.sep + random_image
@@ -57,7 +57,7 @@ class PictureManager:
             def_proj_image_dir = "image"
             def_proj_image_name = "def_wall.jpg"
 
-            image_address = str(Util.get_instance().get_project_root()) \
+            image_address = Util.get_instance().get_project_root() \
                             + os.sep \
                             + def_proj_image_dir \
                             + os.sep \
