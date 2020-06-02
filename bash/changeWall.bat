@@ -1,5 +1,4 @@
 @echo off
-
 setlocal enabledelayedexpansion
 
 set "wait_time=!time:~0.2!"

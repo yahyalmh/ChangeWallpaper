@@ -8,7 +8,7 @@ from Utils import Util
 
 
 class Scheduler:
-    hourly_comment = "changeWall"
+    hourly_comment = "changeWall_hourly"
     reboot_comment = "changeWall_reboot"
 
     def __init__(self):

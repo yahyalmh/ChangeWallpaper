@@ -9,8 +9,8 @@ if [ "$is_installed" = 1 ]; then
     echo "Info: create app directory in path:'$private_dir_path'"
     mkdir -p "${private_dir_path}"
 
-    rsync -a ./* "$private_dir_path" --exclude install.sh
     echo "Info: coping files..."
+    rsync -a ./* "$private_dir_path" --exclude install.sh
 
     python3_path=$(type -P python3)
     main_path="$HOME/${private_dir_name}/Main.py"
