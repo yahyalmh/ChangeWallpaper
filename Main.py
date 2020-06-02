@@ -35,7 +35,6 @@ class Main:
 
             if old_date != str(today_date):
                 self.all_pages = [cls() for cls in Page.__subclasses__()]
-                print(len(self.all_pages))
                 for page in self.all_pages:
                     page.fetch_image()
 
