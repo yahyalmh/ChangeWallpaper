@@ -8,7 +8,8 @@ from Utils import Util
 
 
 class Scheduler:
-    command_name = "changeWall"
+    hourly_comment = "changeWall"
+    reboot_comment = "changeWall_reboot"
 
     def __init__(self):
         self.project_dir = Util.get_instance().get_project_root()
@@ -25,11 +26,11 @@ class Scheduler:
         if sys.platform.__contains__("win"):
             #  schtasks /end /tn "changeWall" // end task
             #  schtasks /run /tn "changeWall" //run task immediately
-            cmd = "schtasks /query /fo LIST /tn " + self.command_name
+            cmd = "schtasks /query /fo LIST /tn " + self.hourly_comment
             result = subprocess.run(cmd, stdout=subprocess.PIPE).stdout.decode('utf-8')
 
             if result != "":
-                cmd = "schtasks /f /delete /tn " + self.command_name
+                cmd = "schtasks /f /delete /tn " + self.hourly_comment
                 result = subprocess.run(cmd, stdout=subprocess.PIPE).stdout.decode('utf-8')
 
             python_path = "\" cmd /c python3 " + self.main_class_path + ">" + self.log_file_path + "\""
@@ -39,14 +40,18 @@ class Scheduler:
             # file.write(p)
             # file.close()
 
-            # cmd = "schtasks /create /sc minute /tn " + self.command_name + " /tr " + bat_path
-            cmd = "schtasks /create /sc hourly /tn " + self.command_name + " /tr " + python_path  # minute
+            # cmd = "schtasks /create /sc minute /tn " + self.hourly_comment + " /tr " + bat_path
+            cmd = "schtasks /create /sc hourly /tn " + self.hourly_comment + " /tr " + python_path  # minute
             subprocess.run(cmd, stdout=subprocess.PIPE).stdout.decode('utf-8')
 
         elif sys.platform.__contains__("linux"):
             cron = CronTab(user=os.getenv('USER'))
-            pre_job = cron.find_comment(comment=self.command_name)
-            cron.remove(pre_job)
+
+            pre_hourly_job = cron.find_comment(comment=self.hourly_comment)
+            cron.remove(pre_hourly_job)
+
+            pre_reboot_job = cron.find_comment(comment=self.reboot_comment)
+            cron.remove(pre_reboot_job)
             cron.write()
 
             python_path = subprocess \
@@ -55,7 +60,10 @@ class Scheduler:
                 .rstrip("\n")
 
             command = python_path + " " + self.main_class_path + " &>> " + self.log_file_path
-            job = cron.new(command=command, comment=self.command_name)
-            job.every(1).hours()
+            hourly_job = cron.new(command=command, comment=self.hourly_comment)
+            hourly_job.every(1).hours()
+
+            reboot_job = cron.new(command=command, comment=self.reboot_comment)
+            reboot_job.every_reboot()
             cron.write()
 
