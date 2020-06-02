@@ -9,7 +9,8 @@ class Database:
     db_name = "wallpaperDB.db"
 
     def __init__(self):
-        self.DB_address = Util.get_instance().get_project_dir() + os.sep + self.db_name
+        # self.DB_address = Util.get_instance().get_project_root() + os.sep + self.db_name
+        self.DB_address = os.path.dirname(os.path.realpath(__file__)) + os.sep + self.db_name
         self.date = ""
 
     def create_database(self):

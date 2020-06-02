@@ -1,4 +1,4 @@
-from bs4 import BeautifulSoup
+from lib.bs4 import BeautifulSoup
 
 from pages.Page import Page
 
