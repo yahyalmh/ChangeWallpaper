@@ -37,7 +37,7 @@ class Scheduler:
             hourly_cmd = "schtasks /create /sc hourly /tn " + self.hourly_comment + " /tr " + python_path  # minute
             subprocess.run(hourly_cmd, stdout=subprocess.PIPE).stdout.decode('utf-8')
 
-            reboot_cmd = "schtasks /create /sc ONSTART /tn " + self.hourly_comment + " /tr " + python_path  # minute
+            reboot_cmd = "schtasks /create /sc ONSTART /tn " + self.reboot_comment + " /tr " + python_path  # minute
             subprocess.run(reboot_cmd, stdout=subprocess.PIPE).stdout.decode('utf-8')
 
         elif sys.platform.__contains__("linux"):
