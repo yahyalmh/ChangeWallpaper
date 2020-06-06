@@ -23,36 +23,25 @@ class Scheduler:
         self.main_class_path = self.project_root_dir + os.sep + "Main.py"
 
     def schedule(self):
-        if sys.platform.__contains__("win"):
-            #  schtasks /end /tn "changeWall" // end task
-            #  schtasks /run /tn "changeWall" //run task immediately
-            cmd = "schtasks /query /fo LIST /tn " + self.hourly_comment
-            result = subprocess.run(cmd, stdout=subprocess.PIPE).stdout.decode('utf-8')
+        self.find_delete_job(self.hourly_comment)
+        self.find_delete_job(self.reboot_comment)
 
-            if result != "":
-                cmd = "schtasks /f /delete /tn " + self.hourly_comment
-                result = subprocess.run(cmd, stdout=subprocess.PIPE).stdout.decode('utf-8')
+        self.add_new_job()
+
+    def add_new_job(self):
+        if sys.platform.__contains__("win"):
+            #  schtasks /end /tn "changeWall_hourly" // end task
+            #  schtasks /run /tn "changeWall" //run task immediately
 
             python_path = "\" cmd /c python3 " + self.main_class_path + ">" + self.log_file_path + "\""
-            # p = "python3 " + self.main_class_path + ">" + self.log_file_path
-            # bat_path = self.project_root_dir + os.sep + "test.bat"
-            # file = open(bat_path, "+a")
-            # file.write(p)
-            # file.close()
+            hourly_cmd = "schtasks /create /sc hourly /tn " + self.hourly_comment + " /tr " + python_path  # minute
+            subprocess.run(hourly_cmd, stdout=subprocess.PIPE).stdout.decode('utf-8')
 
-            # cmd = "schtasks /create /sc minute /tn " + self.hourly_comment + " /tr " + bat_path
-            cmd = "schtasks /create /sc hourly /tn " + self.hourly_comment + " /tr " + python_path  # minute
-            subprocess.run(cmd, stdout=subprocess.PIPE).stdout.decode('utf-8')
+            reboot_cmd = "schtasks /create /sc ONSTART /tn " + self.hourly_comment + " /tr " + python_path  # minute
+            subprocess.run(reboot_cmd, stdout=subprocess.PIPE).stdout.decode('utf-8')
 
         elif sys.platform.__contains__("linux"):
             cron = CronTab(user=os.getenv('USER'))
-
-            pre_hourly_job = cron.find_comment(comment=self.hourly_comment)
-            cron.remove(pre_hourly_job)
-
-            pre_reboot_job = cron.find_comment(comment=self.reboot_comment)
-            cron.remove(pre_reboot_job)
-            cron.write()
 
             python_path = subprocess \
                 .run(["which", "python3"], stdout=subprocess.PIPE) \
@@ -69,3 +58,16 @@ class Scheduler:
             reboot_job.every_reboot()
             cron.write()
 
+    def find_delete_job(self, job_comment):
+        if sys.platform.__contains__("win"):
+            list_job = "schtasks /query /fo LIST /tn " + job_comment
+            result = subprocess.run(list_job, stdout=subprocess.PIPE).stdout.decode('utf-8')
+            if result != "":
+                delete_job = "schtasks /f /delete /tn " + job_comment
+                subprocess.run(delete_job, stdout=subprocess.PIPE).stdout.decode('utf-8')
+
+        elif sys.platform.__contains__("linux"):
+            cron = CronTab(user=os.getenv('USER'))
+            list_job = cron.find_comment(comment=job_comment)
+            cron.remove(list_job)
+            cron.write()
