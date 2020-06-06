@@ -59,11 +59,13 @@ class Scheduler:
                 .stdout.decode('utf-8') \
                 .rstrip("\n")
 
-            command = python_path + " " + self.main_class_path + " &>> " + self.log_file_path
-            hourly_job = cron.new(command=command, comment=self.hourly_comment)
+            hourly_command = python_path + " " + self.main_class_path + " &>> " + self.log_file_path
+            hourly_job = cron.new(command=hourly_command, comment=self.hourly_comment)
             hourly_job.every(1).hours()
 
-            reboot_job = cron.new(command=command, comment=self.reboot_comment)
+            sleep = "sleep 30 &&  "
+            reboot_command = sleep + python_path + " " + self.main_class_path + " &>> " + self.log_file_path
+            reboot_job = cron.new(command=reboot_command, comment=self.reboot_comment)
             reboot_job.every_reboot()
             cron.write()
 

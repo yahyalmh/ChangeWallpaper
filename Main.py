@@ -21,6 +21,7 @@ class Main:
         self.default_dir_name = "wallpaper"
         self.bash_file_name = "changeWall.sh"
         self.bat_file_name = "changeWall.bat"
+        self.vbs_file_name = "changeWall.vbs"
 
         self.setup_files()
         self.all_pages = []
@@ -38,12 +39,12 @@ class Main:
                 for page in self.all_pages:
                     page.fetch_image()
 
-                self.db.inset_today_date()
-
                 image_address = self.pictureManager.get_random_image(self.all_pages)
 
                 if image_address is None or not os.path.exists(image_address):
                     image_address = self.pictureManager.get_default_random_image()
+                else:
+                    self.db.inset_today_date()
 
                 self.spaceManager.check_space()  # reduce space tacked by app limit is 2G if necessary
             else:
@@ -58,15 +59,16 @@ class Main:
     def set_wallpaper_with_bash(self, image_address):
         try:
             os_platform = sys.platform
-            script_path = Util.get_instance().get_project_root() \
-                          + os.sep \
-                          + self.bash_proj_dir
-            if os_platform.__contains__("linux"):
-                script_path += os.sep + self.bash_file_name
-            elif os_platform.__contains__("win32"):
-                script_path += os.sep + self.bat_file_name
+            script_path_dir = Util.get_instance().get_project_root() + os.sep + self.bash_proj_dir
 
-            subprocess.check_call([str(script_path), str(image_address)])
+            if os_platform.__contains__("linux"):
+                linux_bash_path = script_path_dir + os.sep + self.bash_file_name
+                subprocess.check_call([str(linux_bash_path), str(image_address)])
+
+            elif os_platform.__contains__("win32"):
+                win_bat_path = script_path_dir + os.sep + self.bat_file_name
+                vbs_path = script_path_dir + os.sep + self.vbs_file_name
+                subprocess.run([str(vbs_path), str(win_bat_path), str(image_address)], shell=True)
 
         except Exception as e:
             print(e)
