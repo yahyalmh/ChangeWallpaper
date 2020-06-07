@@ -6,7 +6,7 @@ from Utils import Util
 
 
 class Page:
-    tmp_file_name = "tmp.html"
+    tmp_file_name = "tmp"
 
     def __init__(self):
         self.page_url = ""
