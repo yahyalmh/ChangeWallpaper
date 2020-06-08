@@ -1,3 +1,4 @@
+import os
 import urllib
 from pathlib import Path
 from urllib.request import urlopen
@@ -16,16 +17,29 @@ class Util:
     def request_url(self, url, address):
         """Download a url to given address"""
         try:
-            res = urllib.request.urlopen(url)
+            res = urllib.request.urlopen(url, timeout=10)
             if res.getcode():
                 urllib.request.urlretrieve(url, address)
         except Exception as e:
-            pass
+            raise e
 
     def get_project_root(self):
         """Returns project root folder."""
         return str(Path(__file__).parent.parent)
 
+    def get_wall_dir_size(self):
+        """
+        this method return overall size of default app path in kilobyte
+        :return: Int as size
+        """
+        size = 0
+        for file in os.listdir(self.get_project_dir()):
+            file = self.get_project_dir() + os.sep + file
+            if os.path.exists(file) and os.path.isfile(file):
+                size += os.path.getsize(file)
+
+        size /= (1024 * 1024)
+        return round(size, 2)
 
 def get_instance():
     if Util.instance is None:

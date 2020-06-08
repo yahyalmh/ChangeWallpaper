@@ -8,10 +8,20 @@ from Utils import Util
 class PictureManager:
     os_default_picture_path = "/usr/share/backgrounds"
 
-    def get_random_image(self, pages_list):
+    def choose_wallpaper(self, is_download_occur, pages_list):
+        image_address = None
+        if is_download_occur:
+            image_address = self.choose_today_images(pages_list)
+
+        if image_address is None or not os.path.exists(image_address):
+            image_address = self.choose_default_images()
+
+        return image_address
+
+    def choose_today_images(self, pages_list):
         image_address = None
 
-        if not pages_list:
+        if not pages_list or len(pages_list) - 1 <= 0:
             return image_address
 
         pages_count = len(pages_list) - 1
@@ -32,15 +42,15 @@ class PictureManager:
 
         return image_address
 
-    def get_default_random_image(self):
+    def choose_default_images(self):
         while True:
-            rand_image = self.choose_rand_image()
+            rand_image = self.get_rand_image()
             if imghdr.what(rand_image) is not None:
                 image_address = rand_image
                 break
         return image_address
 
-    def choose_rand_image(self):
+    def get_rand_image(self):
         def_project_dir = Util.get_instance().get_project_dir()
 
         if os.path.exists(def_project_dir) and len(os.listdir(def_project_dir)) > 1:

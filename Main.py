@@ -26,37 +26,43 @@ class Main:
         self.setup_files()
         self.all_pages = []
         self.spaceManager = SpaceManager()
-        self.db = Database().create_database()
+        self.db = Database().get_instance()
         self.pictureManager = PictureManager()
 
     def main(self):
         try:
-            old_date = self.db.get_date()
-            today_date = datetime.date(datetime.now())
+            is_download_occur = self.download_new_wall()
 
-            if old_date != str(today_date):
+            if is_download_occur:
+                self.db.update_db(self.all_pages)
+                self.spaceManager.check_space()
+
+            image_address = self.pictureManager.choose_wallpaper(is_download_occur, self.all_pages)
+            self.set_wallpaper(image_address)
+
+        except Exception as e:
+            pass
+
+    def download_new_wall(self):
+        is_downloaded = False
+        old_date = self.db.get_date()
+        today_date = datetime.date(datetime.now())
+        if old_date != str(today_date):
+            try:
                 self.all_pages = [cls() for cls in Page.__subclasses__()]
                 for page in self.all_pages:
                     page.fetch_image()
 
-                image_address = self.pictureManager.get_random_image(self.all_pages)
+                is_downloaded = True
+            except Exception as e:
+                is_downloaded = False
+                pass
+        return is_downloaded
 
-                if image_address is None or not os.path.exists(image_address):
-                    image_address = self.pictureManager.get_default_random_image()
-                else:
-                    self.db.inset_today_date()
+    def set_wallpaper(self, image_address):
+        if image_address is None or not os.path.exists(image_address):
+            return
 
-                self.spaceManager.check_space()  # reduce space tacked by app limit is 2G if necessary
-            else:
-                image_address = self.pictureManager.get_default_random_image()
-
-            self.set_wallpaper_with_bash(image_address)
-
-        except Exception as e:
-            print(e)
-            pass
-
-    def set_wallpaper_with_bash(self, image_address):
         try:
             os_platform = sys.platform
             script_path_dir = Util.get_instance().get_project_root() + os.sep + self.bash_proj_dir
@@ -69,7 +75,6 @@ class Main:
                 win_bat_path = script_path_dir + os.sep + self.bat_file_name
                 vbs_path = script_path_dir + os.sep + self.vbs_file_name
                 subprocess.run([str(vbs_path), str(win_bat_path), str(image_address)], shell=True)
-
         except Exception as e:
             print(e)
             pass
@@ -85,4 +90,4 @@ class Main:
 
 if __name__ == '__main__':
     Main().main()
-    Scheduler().schedule()
+    # Scheduler().schedule()
