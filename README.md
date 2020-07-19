@@ -26,9 +26,9 @@ those site addresses are:
 ## Installation
 install process create file name `.changeWall` in you home and copy project file to that path and run it.
 * ##### linux
-run `install.sh` from command line.  
+Go to installation directory and run `install.sh` from command line.  
 * ##### windows
-run `install.bat` from cmd.
+Go to installation directory and run `install.bat` from cmd.
 ## Technologies
 
 project is created with:

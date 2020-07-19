@@ -32,7 +32,7 @@ class Scheduler:
     def add_new_job(self, job_comment):
         if sys.platform.__contains__("win"):
             # python_path = "\" cmd /c python3 " + self.main_class_path + ">" + self.log_file_path + "\""
-            run_path = self.project_root_dir + os.sep + "main" + os.sep + "run.vbs"
+            run_path = self.project_root_dir + os.sep + "run.vbs"
             command = ""
 
             if job_comment == self.hourly_comment:
