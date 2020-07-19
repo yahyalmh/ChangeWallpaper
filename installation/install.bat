@@ -3,7 +3,7 @@ setlocal enabledelayedexpansion
 
 set private_dir_name=.changeWall
 set private_dir_path=%userprofile%\%private_dir_name%
-set run_path=%private_dir_path%\main\run.vbs
+set run_path=%private_dir_path%\run.vbs
 
 for /f "delims=" %%i in ('where python3') do set python3_path=%%i
 if not %python3_path%=="" (
@@ -14,7 +14,7 @@ if not %python3_path%=="" (
 	mkdir %private_dir_path%
 
 	echo "Info: coping files..."
-	xcopy /r /d /i /s /y /exclude:excludelist.txt .\* %private_dir_path%
+	xcopy /r /d /i /s /y /exclude:excludelist.txt ..\* %private_dir_path%
 
 	echo "run path is:  %run_path%"
     echo "Info: run app..."

@@ -10,7 +10,7 @@ if [ "$is_installed" = 1 ]; then
     mkdir -p "${private_dir_path}"
 
     echo "Info: coping files..."
-    rsync -a ./* "$private_dir_path" --exclude install.sh
+    rsync -a ../* "$private_dir_path" --exclude install.sh
 
     python3_path=$(type -P python3)
     main_path="$HOME/${private_dir_name}/Main.py"
