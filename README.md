@@ -58,7 +58,7 @@ also if there is not any wallpaper in this path use a default image there is in 
 * ##### windows
  if you want to download wallpaper and change your wallpaper daily run follow command:
  
- `"schtasks /create /sc daily  /tr " +   /your_home_path/.chagneWall/run.vbs`
+ `schtasks /create /sc daily  /tr " +   /your_home_path/.chagneWall/run.vbs`
  
 ## To Do
 * add some another wallpaper site 
