@@ -3,7 +3,7 @@ Download and change wallpaper automatically
 ## Table of content
 * [General info](#General-info)
 
-*[Installation](#Installation)
+* [Installation](#Installation)
 
 * [Technologies](#Technologies)
 
