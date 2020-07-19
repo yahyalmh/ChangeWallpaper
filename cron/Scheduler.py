@@ -31,11 +31,12 @@ class Scheduler:
 
     def add_new_job(self, job_comment):
         if sys.platform.__contains__("win"):
-            python_path = "\" cmd /c python3 " + self.main_class_path + ">" + self.log_file_path + "\""
+            # python_path = "\" cmd /c python3 " + self.main_class_path + ">" + self.log_file_path + "\""
+            run_path = self.project_root_dir + os.sep + "main" + os.sep + "run.vbs"
             command = ""
 
             if job_comment == self.hourly_comment:
-                command = "schtasks /create /sc hourly /tn " + job_comment + " /tr " + python_path
+                command = "schtasks /create /sc hourly /tn " + job_comment + " /tr " + run_path
             elif job_comment == self.reboot_comment:
                 command = ""  # need admin
                 # command = "schtasks /create /sc onstart /tn " + job_comment + " /tr " + python_path

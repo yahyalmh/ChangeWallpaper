@@ -17,7 +17,7 @@ if [ "$is_installed" = 1 ]; then
     echo "Info: run app..."
     $python3_path "$main_path"
     echo "Info: create crontab job to change wallpaper hourly(see crontab file)"
-    echo "Info: download Bing and Nasa wallpaper"
+    echo "Info: download Bing and Nasa wallpaper if net connection was ok"
     echo "Info: Finished"
 
 else echo "Error: you have not installed python3. This app work with python3 only."

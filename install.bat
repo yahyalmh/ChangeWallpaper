@@ -3,7 +3,7 @@ setlocal enabledelayedexpansion
 
 set private_dir_name=.changeWall
 set private_dir_path=%userprofile%\%private_dir_name%
-set main_path=%private_dir_path%\Main.py
+set run_path=%private_dir_path%\main\run.vbs
 
 for /f "delims=" %%i in ('where python3') do set python3_path=%%i
 if not %python3_path%=="" (
@@ -16,12 +16,12 @@ if not %python3_path%=="" (
 	echo "Info: coping files..."
 	xcopy /r /d /i /s /y /exclude:excludelist.txt .\* %private_dir_path%
 
-	echo "amin %main_path%"
+	echo "run path is:  %run_path%"
     echo "Info: run app..."
-    cmd /c %python3_path% %main_path%
+    cmd /c %run_path%
 
     echo "Info: create crontab job to change wallpaper hourly(see crontab file)"
-    echo "Info: download Bing and Nasa wallpaper"
+    echo "Info: download Bing and Nasa wallpaper if net connection was ok"
     echo "Info: Finished"
 
 	) else (
