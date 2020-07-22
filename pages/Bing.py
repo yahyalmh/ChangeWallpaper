@@ -20,7 +20,8 @@ class Bing(Page):
             for link in body.find_all('div'):
                 style = link.get('style')
                 if style is not None and "background-image" in style:
-                    self.image_url = self.page_url + style.split("/")[1]
+                    image_address = style.split("/")[1].split("jpg")[0]
+                    self.image_url = self.page_url + image_address + "jpg"
                     break
 
             image_name_id = "iotd_title"
