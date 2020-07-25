@@ -1,15 +1,26 @@
-Dim win_shell, main_path, current_dir, python3_path
+Dim win_shell, main_path, current_dir, python3_path, output_path
 
 current_dir= left(WScript.ScriptFullName,(Len(WScript.ScriptFullName))-(len(WScript.ScriptName)))
 
 main_path = current_dir & "Main.py"
 main_path = Replace(main_path, "\", "\\")
 
+output_path = current_dir & "output.txt"
 set win_shell = WScript.CreateObject("WScript.Shell")
-return=win_shell.Run("cmd /c where python3 > output.txt", 0, true)
+comm = "cmd /c where python3 >" & output_path &  ""
+return=win_shell.Run(comm, 0, true)
+
+output_path = Replace(output_path,vbCr,"")
+output_path = Replace(output_path,vbLf,"")
+output_path = CStr(Trim(output_path))
 
 set objFSO  = CreateObject("Scripting.FileSystemObject")
-set file = objFSO.OpenTextFile("output.txt", 1)
+If  not objFSO.FileExists(output_path) Then
+	WScript.Echo "output.txt file not found"
+	WScript.Quit
+End If
+
+set file = objFSO.OpenTextFile(output_path, 1)
 python3_path = file.ReadAll
 file.Close
 
@@ -25,7 +36,7 @@ If  not objFSO.FileExists(main_path) Then
 End If
 If  not objFSO.FileExists(python3_path) Then
 	WScript.Echo "python3.exe not found"
-		WScript.Quit
+	WScript.Quit
 End If
 
 command= python3_path &" "& main_path
@@ -35,3 +46,4 @@ Set win_shell = Nothing
 set main_path = Nothing
 set current_dir = Nothing
 set python3_path = Nothing
+set output_path = Nothing
