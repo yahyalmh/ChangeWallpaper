@@ -8,9 +8,9 @@ from Utils import Util
 class PictureManager:
     os_default_picture_path = "/usr/share/backgrounds"
 
-    def choose_wallpaper(self, is_download_occur, pages_list):
+    def choose_wallpaper(self, image_downloaded_count, pages_list):
         image_address = None
-        if is_download_occur:
+        if image_downloaded_count > 0:
             image_address = self.choose_today_images(pages_list)
 
         if image_address is None or not os.path.exists(image_address):

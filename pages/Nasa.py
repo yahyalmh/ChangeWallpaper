@@ -16,7 +16,8 @@ class Nasa(Page):
             # html = list(parsed_html.children)[2]
             # body = list(html.children)[3]
 
-            for tag in parsed_html.find_all('img'):
+            images_tag = parsed_html.find_all('img')
+            for tag in images_tag:
                 url = tag.get('src')
                 if url is not None:
                     self.image_url = self.page_url.split("astropix")[0] + url

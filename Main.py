@@ -31,33 +31,35 @@ class Main:
 
     def main(self):
         try:
-            is_download_occur = self.download_new_wall()
+            image_downloaded_count = self.download_new_wall()
 
-            if is_download_occur:
+            if image_downloaded_count > 0:
                 self.db.update_db(self.all_pages)
                 self.spaceManager.check_space()
 
-            image_address = self.pictureManager.choose_wallpaper(is_download_occur, self.all_pages)
+            image_address = self.pictureManager.choose_wallpaper(image_downloaded_count, self.all_pages)
             self.set_wallpaper(image_address)
 
         except Exception as e:
             pass
 
     def download_new_wall(self):
-        is_downloaded = False
+        image_downloaded_count = 0
+
         old_date = self.db.get_date()
         today_date = datetime.date(datetime.now())
-        if old_date != str(today_date):
-            try:
-                self.all_pages = [cls() for cls in Page.__subclasses__()]
-                for page in self.all_pages:
-                    page.fetch_image()
 
-                is_downloaded = True
-            except Exception as e:
-                is_downloaded = False
-                pass
-        return is_downloaded
+        if old_date != str(today_date):
+
+            self.all_pages = [cls() for cls in Page.__subclasses__()]
+
+            for page in self.all_pages:
+                is_successful = page.fetch_image()
+
+                if is_successful:
+                    image_downloaded_count += 1
+
+        return image_downloaded_count
 
     def set_wallpaper(self, image_address):
         if image_address is None or not os.path.exists(image_address):

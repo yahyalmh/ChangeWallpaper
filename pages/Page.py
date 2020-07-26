@@ -15,29 +15,32 @@ class Page:
         self.image_local_address = ""
 
     def fetch_image(self):
-
         tmp_page_address = Util.get_instance().get_project_dir() + os.sep + self.tmp_file_name
+        try:
+            Util.get_instance().request_url(self.page_url, tmp_page_address)
 
-        Util.get_instance().request_url(self.page_url, tmp_page_address)
+            if not os.path.exists(tmp_page_address):
+                return
+            elif os.path.getsize(tmp_page_address) <= 0:
+                os.remove(tmp_page_address)
+                return
 
-        if not os.path.exists(tmp_page_address):
-            return
-        elif os.path.getsize(tmp_page_address) <= 0:
-            os.remove(tmp_page_address)
-            return
+            file = open(tmp_page_address, "r+")
+            page_content = file.read()
+            file.close()
 
-        file = open(tmp_page_address, "r+")
-        page_content = file.read()
-        file.close()
+            self.parse_page(page_content)
 
-        self.parse_page(page_content)
+            self.create_image_name()
 
-        self.create_image_name()
+            self.download_image()
 
-        self.download_image()
-
-        if os.path.exists(tmp_page_address):
-            os.remove(tmp_page_address)
+            return True
+        except Exception as e:
+            return False
+        finally:
+            if os.path.exists(tmp_page_address):
+                os.remove(tmp_page_address)
 
     def download_image(self):
         self.image_local_address = Util.get_instance().get_project_dir()\
