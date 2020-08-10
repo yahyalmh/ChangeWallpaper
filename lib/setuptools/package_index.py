@@ -523,7 +523,7 @@ class PackageIndex(Environment):
             raise DistutilsError(
                 "%s validation failed for %s; "
                 "possible download problem?"
-                % (checker.hash.name, os.path.basename(filename))
+                % (checker.image_hash.name, os.path.basename(filename))
             )
 
     def add_find_links(self, urls):

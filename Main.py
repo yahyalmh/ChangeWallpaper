@@ -34,8 +34,9 @@ class Main:
             image_downloaded_count = self.download_new_wall()
 
             if image_downloaded_count > 0:
-                self.db.update_db(self.all_pages)
+                self.spaceManager.remove_duplicate_image(self.all_pages)
                 self.spaceManager.check_space()
+                self.db.update_db(self.all_pages)
 
             image_address = self.pictureManager.choose_wallpaper(image_downloaded_count, self.all_pages)
             self.set_wallpaper(image_address)
@@ -49,7 +50,7 @@ class Main:
         old_date = self.db.get_date()
         today_date = datetime.date(datetime.now())
 
-        if old_date != str(today_date):
+        if old_date != str("today_date"):
 
             self.all_pages = [cls() for cls in Page.__subclasses__()]
 

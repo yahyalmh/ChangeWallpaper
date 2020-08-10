@@ -43,7 +43,10 @@ project is created with:
 ## Features
 
 * Test on linux ubuntu 18.4 with Gnome 3.28 and windows 10
-* download wallpaper once a day
+* Check and remove duplicate file with hash algorithm(use has table)
+* Tested on Ubuntu 20 LTS and Windows 10
+* Use vbs file to run python file on Windows
+* Download wallpaper once a day
 * Change wallpaper periodically(hourly and reboot) with crontab setup for linux and schtasks for windows
 * If the total downloaded images size is more than 2G(you can change this limit in`Utils/SpaceManager.py` file), remove the oldest image files from the application directory daily
 * If there is not image in project's download directory use system default wallpaper in `/usr/share/backgrounds` directory on linux.
@@ -56,6 +59,7 @@ also if there is not any wallpaper in this path use a default image there is in 
  
  `0 */2  * * * /usr/bin/python3  /your_home_path/.chagneWall/Main.py`
 * ##### windows
+Can not change wallpaper at reboot time because you need administrator privilege.
  if you want to download wallpaper and change your wallpaper daily run follow command:
  
  `schtasks /create /sc daily  /tr " +   /your_home_path/.chagneWall/run.vbs`

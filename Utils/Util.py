@@ -1,3 +1,4 @@
+import hashlib
 import os
 import urllib
 from pathlib import Path
@@ -40,6 +41,15 @@ class Util:
 
         size /= (1024 * 1024)
         return round(size, 2)
+
+    @staticmethod
+    def md5(address):
+        sha_hash = hashlib.sha1()  # use SHA1
+        with open(address, "rb") as file:
+            for chunk in iter(lambda: file.read(4096), b""):
+                sha_hash.update(chunk)
+        return sha_hash.hexdigest()
+
 
 def get_instance():
     if Util.instance is None:

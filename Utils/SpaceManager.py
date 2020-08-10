@@ -41,3 +41,9 @@ class SpaceManager:
                     os.remove(Path(file))
             else:
                 break
+
+    def remove_duplicate_image(self, page_list):
+        for page in page_list:
+            if os.path.exists(page.image_local_address):
+                if self.db.is_duplicate_file(page.image_name, page.image_hash):
+                    os.remove(page.image_local_address)

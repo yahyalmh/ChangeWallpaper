@@ -13,6 +13,7 @@ class Page:
         self.image_url = ""
         self.image_name = ""
         self.image_local_address = ""
+        self.image_hash = ""
 
     def fetch_image(self):
         tmp_page_address = Util.get_instance().get_project_dir() + os.sep + self.tmp_file_name
@@ -34,6 +35,8 @@ class Page:
             self.create_image_name()
 
             self.download_image()
+
+            self.image_hash = Util.get_instance().md5(self.image_local_address)
 
             return True
         except Exception as e:
