@@ -17,18 +17,17 @@ class Bing(Page):
             parsed_html = BeautifulSoup(page_content, "html.parser")
             html = list(parsed_html.children)[1]
             body = list(html.children)[1]
-            for link in body.find_all('div'):
-                style = link.get('style')
-                if style is not None and "background-image" in style:
-                    image_address = style.split("/")[1].split("jpg")[0]
-                    self.image_url = self.page_url + image_address + "jpg"
-                    break
 
-            image_name_id = "iotd_title"
-            for a_tag in body.find_all('a'):
-                if str(a_tag.get('id')) == image_name_id:
-                    self.extract_image_name = a_tag.get_text()
-                    break
+            # for link in body.find_all('div'):
+
+            wall_tag = body.find('div', class_='img_cont')
+            style = wall_tag.get('style')
+            if style is not None and "background-image" in style:
+                image_address = style.split("/")[1].split("jpg")[0]
+                self.image_url = self.page_url + image_address + "jpg"
+
+            # image_name_id = "iotd_title"
+            self.extract_image_name = body.find('a', class_='title').getText()
 
         except Exception as e:
             pass
