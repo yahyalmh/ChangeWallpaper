@@ -28,10 +28,12 @@ Those site addresses are:
  
 ## Installation
 
-Install process creates a file named `.changeWall` in you home directory and uses it as project folder. To install it, just clone the repository in a path and run the install script based on your os type.
+To install it, just clone the repository in a path and run the install script based on your os type. Install process creates a file named `.changeWall` in you home directory and uses it as the project folder. 
 
 * ##### linux
-    Go to installation directory and run `install.sh` from the terminal.  
+    Go to installation directory and run `./install.sh` from the terminal. 
+    
+    - Make sure the install script has execution permission. By default it has that permission, but you can give that permission by `sudo chmod +x install.sh` if it does not have.
 
 * ##### windows
     Go to installation directory and run `install.bat` from cmd.
@@ -55,23 +57,23 @@ project is built with:
 * Use vbs file to run python file on Windows
 * Download wallpaper once a day
 * Change wallpaper periodically(hourly and reboot) with crontab setup for linux and schtasks for windows
-* If the total downloaded images size is more than 2G(you can change this limit in`Utils/SpaceManager.py` file), it will remove the oldest image files from the application directory which is named `wallpapre` directory in you home directory
-* If there is no image in project's download directory use system default wallpaper in `/usr/share/backgrounds` directory on the Linux. Also if there is no image in this path use a default image which is in project `./image/def_wall.png` path
+* If the total downloaded images' size is more than 2GB(you can change this limit in`Utils/SpaceManager.py` file), it will remove the oldest image files from the application directory which is named `wallpapre` directory in you home directory
+* If there is no image in project's download directory use system default's wallpaper in `/usr/share/backgrounds` directory on the Linux. Also if there is no image in this path use a default image which is in project `./image/def_wall.png` path
 
  ## Setup
  
  Schedule change wallpaper hourly and at the time of os reboot it's done automatically. but if you want to change it use below commands. 
- 
-* ##### linux
- If you want to change your wallpaper periodically, for example change it every two hours, set crontab job for this script like this:
- 
-    `0 */2  * * * /usr/bin/python3  /your_home_path/.chagneWall/Main.py`
- 
-* ##### windows
-Can not change wallpaper at reboot time because you need administrator privilege.
- if you want to change your wallpaper daily run follow command:
- 
-    `schtasks /create /sc daily  /tr " +   /your_home_path/.chagneWall/run.vbs`
+
+   * ##### linux
+      If you want to change your wallpaper periodically, for example change it every two hours, set crontab job for this script like this:
+
+       `0 */2  * * * /usr/bin/python3  /your_home_path/.chagneWall/Main.py`
+
+   * ##### windows
+      Can not change wallpaper at reboot time because you need administrator privilege.
+       if you want to change your wallpaper daily run follow command:
+
+      `schtasks /create /sc daily  /tr " +   /your_home_path/.chagneWall/run.vbs`
  
 ## To Do
 * Add some another wallpaper site 
