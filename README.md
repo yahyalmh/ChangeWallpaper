@@ -78,3 +78,5 @@ project is built with:
 ## To Do
 * Add some another wallpaper site 
 * Use Apod api to download Nasa daily images
+* Add The Uninstall script
+* Remove previously cron job with the sabe comment
