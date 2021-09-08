@@ -1,5 +1,5 @@
 # ChangeWallpaper
-Download and change wallpaper automatically on The Linux and Windows
+Download The Bing and Nasa daily wallpapers and change The Linux and Windows Wallpapre automatically
 
 ## Table of content
 
