@@ -6,7 +6,7 @@ if [ "$is_installed" = 1 ]; then
     echo "Info: You have installed python3"
     private_dir_name=".changeWall"
     private_dir_path="$HOME/${private_dir_name}"
-    echo "Info: creating app directory in path:'$private_dir_path'"
+    echo "Info: Creating app directory in path:'$private_dir_path'"
     mkdir -p "${private_dir_path}"
 
     echo "Info: Coping files..."
