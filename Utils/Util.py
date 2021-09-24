@@ -3,6 +3,7 @@ import os
 import urllib
 from pathlib import Path
 from urllib.request import urlopen
+import ssl
 
 
 class Util:
@@ -18,6 +19,7 @@ class Util:
     def request_url(self, url, address):
         """Download a url to given address"""
         try:
+            ssl._create_default_https_context = ssl._create_unverified_context
             res = urllib.request.urlopen(url, timeout=10)
             if res.getcode():
                 urllib.request.urlretrieve(url, address)
