@@ -85,3 +85,4 @@ If you install the script without any errors, but your background is not changed
 * Use Apod API to download Nasa daily images
 * Add The Uninstall script
 * Remove previously cron job with the sabe comment
+* Decrease the wallpaper folder default size
